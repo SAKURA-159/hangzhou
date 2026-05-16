@@ -44,7 +44,7 @@ def _multi_color_bar(x, y, n: int, opacity=0.85):
 
 # ==================== Tab 1: Region Analysis ====================
 
-def region_median_bar(df: pd.DataFrame) -> go.Figure:
+def region_median_bar(df: pd.DataFrame, top_n: int = 10) -> go.Figure:
     if "place" not in df.columns or "price" not in df.columns:
         return go.Figure()
 
@@ -52,7 +52,7 @@ def region_median_bar(df: pd.DataFrame) -> go.Figure:
         df.groupby("place")["price"]
         .median()
         .sort_values(ascending=False)
-        .head(15)
+        .head(top_n)
         .sort_values(ascending=True)
     )
 

@@ -48,11 +48,9 @@ def render(df: pd.DataFrame) -> None:
     end_idx = min(start_idx + page_size_detail, total_rows)
 
     sorted_df = filtered.sort_values(sort_column, ascending=sort_ascending).fillna("—")
+    display_df = sorted_df.iloc[start_idx:end_idx][selected_columns].astype(str).replace("nan", "—")
     st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
-    st.dataframe(
-        sorted_df.iloc[start_idx:end_idx][selected_columns],
-        use_container_width=True,
-    )
+    st.dataframe(display_df, use_container_width=True)
     st.caption(f"显示第 {start_idx + 1} 到 {end_idx} 行，共 {total_rows} 行")
 
     st.subheader("数据统计摘要")

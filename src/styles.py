@@ -90,19 +90,18 @@ def inject_css() -> None:
     }}
     [data-testid="stDataFrame"] > div {{ border-radius: 6px; overflow: hidden; }}
     [data-testid="stDataFrame"] th {{
-        text-align: center !important;
+        text-align: left !important;
         font-weight: 600 !important;
         font-size: 0.8rem !important;
         color: {TEXT} !important;
         padding: 8px 12px !important;
     }}
     [data-testid="stDataFrame"] td {{
-        text-align: center !important;
+        text-align: left !important;
         padding: 6px 12px !important;
         font-size: 0.82rem !important;
     }}
-    /* Left-align name/text columns via nth-child */
-    [data-testid="stDataFrame"] td:first-child {{
+    [data-testid="stDataFrame"] div[data-testid="stTable"] td {{
         text-align: left !important;
     }}
 

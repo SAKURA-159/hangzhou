@@ -90,13 +90,12 @@ def inject_css() -> None:
     }}
     [data-testid="stDataFrame"] > div {{ border-radius: 6px; overflow: hidden; }}
     [data-testid="stDataFrame"] th {{
-        text-align: center !important; font-weight: 600 !important;
+        text-align: left !important; font-weight: 600 !important;
         font-size: 0.8rem !important; color: {TEXT} !important; padding: 8px 12px !important;
     }}
     [data-testid="stDataFrame"] td {{
-        text-align: center !important; padding: 6px 12px !important; font-size: 0.82rem !important;
+        text-align: left !important; padding: 6px 12px !important; font-size: 0.82rem !important;
     }}
-    [data-testid="stDataFrame"] td:first-child {{ text-align: left !important; }}
 
     /* --- Input widgets consistency --- */
     .stTextInput input, .stNumberInput input, .stSelectbox [data-baseweb="select"] {{

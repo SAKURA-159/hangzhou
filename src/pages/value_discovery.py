@@ -90,11 +90,12 @@ def render(df: pd.DataFrame) -> None:
     show_df = value_houses_display.iloc[start_idx:end_idx][display_columns].copy()
     for c in ["price", "区域基准价"]:
         if c in show_df.columns:
-            show_df[c] = pd.to_numeric(show_df[c], errors="coerce").round(0)
+            show_df[c] = pd.to_numeric(show_df[c], errors="coerce").round(0).astype(str).replace("nan", "—")
     if "折扣比例" in show_df.columns:
-        show_df["折扣比例"] = pd.to_numeric(show_df["折扣比例"], errors="coerce").round(2)
+        show_df["折扣比例"] = pd.to_numeric(show_df["折扣比例"], errors="coerce").round(2).astype(str).replace("nan", "—") + "%"
 
-    st.dataframe(show_df.fillna("—"), use_container_width=True, height=420)
+    display_df = show_df.fillna("—").astype(str)
+    st.dataframe(display_df, use_container_width=True, height=420)
     st.caption(f"显示第 {start_idx + 1} - {end_idx} 条，共 {total_rows} 条；第 {page_number}/{total_pages} 页")
 
     csv = value_houses_display[display_columns].to_csv(index=False).encode("utf-8-sig")
