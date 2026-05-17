@@ -36,9 +36,10 @@ span[data-baseweb="tag"] {
     border: none !important;
 }
 
-/* 标题更有层级 */
-h1 { font-weight: 800; }
-h2, h3 { font-weight: 700; }
+/* 标题层级 — 学术论文式一二三级 */
+h1 { font-weight: 800; font-size: 2rem; margin-bottom: 0.5rem; }
+h2 { font-weight: 700; font-size: 1.35rem; margin-top: 1.2rem; }
+h3 { font-weight: 700; font-size: 1.1rem; }
 
 /* 让 dataframe 外壳像卡片 */
 div[data-testid="stDataFrame"] {

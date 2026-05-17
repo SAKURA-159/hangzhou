@@ -7,6 +7,7 @@ import importlib
 
 import streamlit as st
 
+from src.auth import render_auth
 from src.data import load_data
 from src.styles import inject_css
 
@@ -19,6 +20,11 @@ st.set_page_config(
 
 inject_css()
 
+# --------------- Auth Gate ---------------
+if "access_token" not in st.session_state:
+    render_auth()
+    st.stop()
+
 # --------------- Load Data ---------------
 df = load_data()
 if df.empty:
@@ -26,7 +32,8 @@ if df.empty:
     st.stop()
 
 # --------------- Sidebar Branding ---------------
-st.sidebar.markdown("""
+user = st.session_state.get("user", {})
+st.sidebar.markdown(f"""
 <div style='padding:0.5rem 0 1rem 0;'>
     <div style='display:flex;align-items:center;gap:10px;margin-bottom:4px;'>
         <svg width='32' height='32' viewBox='0 0 64 64' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -40,7 +47,19 @@ st.sidebar.markdown("""
     </div>
     <p style='color:#777;font-size:0.72rem;margin:0;'>Hangzhou Real Estate</p>
 </div>
+<div style='padding:0.4rem 0.6rem;background:rgba(255,255,255,0.04);
+            border-radius:6px;margin-bottom:0.8rem;'>
+    <span style='color:#B0C0C0;font-size:0.7rem;'>👤 {user.get("username", "")}</span>
+</div>
 """, unsafe_allow_html=True)
+
+# --------------- Logout ---------------
+if st.sidebar.button("退出登录", use_container_width=True, key="logout_btn"):
+    for key in ["access_token", "user"]:
+        st.session_state.pop(key, None)
+    st.rerun()
+
+st.sidebar.markdown("---")
 
 # --------------- Navigation ---------------
 page_names = ["区域分析", "价格分析", "价值发现", "智能预测", "数据详情"]

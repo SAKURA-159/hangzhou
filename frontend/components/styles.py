@@ -67,10 +67,10 @@ def inject_css() -> None:
     }}
     section[data-testid="stSidebar"] button:hover {{ background: rgba(255,255,255,0.08) !important; }}
 
-    /* --- Typography --- */
-    h1 {{ font-weight: 700 !important; font-size: 1.5rem !important; color: {TEXT} !important; }}
-    h2 {{ font-weight: 600 !important; font-size: 1.1rem !important; color: {TEXT} !important; }}
-    h3 {{ font-weight: 600 !important; font-size: 0.95rem !important; color: {TEXT} !important; }}
+    /* --- Typography (academic paper hierarchy) --- */
+    h1 {{ font-weight: 700 !important; font-size: 2rem !important; color: {TEXT} !important; margin-bottom: 0.5rem !important; }}
+    h2 {{ font-weight: 600 !important; font-size: 1.35rem !important; color: {TEXT} !important; margin-top: 1.2rem !important; }}
+    h3 {{ font-weight: 600 !important; font-size: 1.1rem !important; color: {TEXT} !important; }}
 
     /* --- Metric cards --- */
     [data-testid="stMetric"] {{
