@@ -6,7 +6,7 @@ import streamlit as st
 from src.charts import value_discount_histogram, value_region_count_bar
 from src.dashboard import chart_card, footer, section_header
 from src.filters import render_sidebar
-from src.data import get_filtered
+from src.data import get_filtered, COLUMN_LABELS
 
 
 def render(df: pd.DataFrame) -> None:
@@ -74,8 +74,16 @@ def render(df: pd.DataFrame) -> None:
         if col in value_houses.columns:
             display_columns.append(col)
 
-    sort_by = st.selectbox("排序方式", options=["折扣比例", "price", "区域基准价", "place"],
-                           index=0, key="tab3_sort")
+    sort_options = ["折扣比例", "price", "区域基准价", "place"]
+    sort_labels = {v: COLUMN_LABELS.get(v, v) for v in sort_options}
+    sort_by_label = st.selectbox(
+        "排序方式",
+        options=[sort_labels[v] for v in sort_options],
+        index=0,
+        key="tab3_sort",
+    )
+    label_to_sort = {sort_labels[v]: v for v in sort_options}
+    sort_by = label_to_sort[sort_by_label]
     sort_ascending = st.checkbox("升序排序", value=(sort_by != "折扣比例"), key="tab3_asc")
 
     value_houses_display = value_houses.sort_values(sort_by, ascending=sort_ascending)
@@ -95,6 +103,7 @@ def render(df: pd.DataFrame) -> None:
         show_df["折扣比例"] = pd.to_numeric(show_df["折扣比例"], errors="coerce").round(2).astype(str).replace("nan", "—") + "%"
 
     display_df = show_df.fillna("—").astype(str)
+    display_df = display_df.rename(columns=lambda c: COLUMN_LABELS.get(c, c))
     st.dataframe(display_df, use_container_width=True, height=420)
     st.caption(f"显示第 {start_idx + 1} - {end_idx} 条，共 {total_rows} 条；第 {page_number}/{total_pages} 页")
 

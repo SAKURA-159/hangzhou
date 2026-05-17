@@ -28,10 +28,10 @@ def render(df: pd.DataFrame) -> None:
     col1, col2 = st.columns(2)
     with col1:
         st.markdown("**中位数排名**")
-        chart_card(region_median_bar(filtered))
+        chart_card(region_median_bar(filtered, top_n=5))
     with col2:
         st.markdown("**价格分布（箱线图）**")
-        chart_card(region_price_boxplot(filtered))
+        chart_card(region_price_boxplot(filtered, top_n=5))
 
     st.markdown("---")
     section_header("区域热度分析", "楼盘数量与均价排名。")

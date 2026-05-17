@@ -294,7 +294,7 @@ with tab1:
 
         with col2:
             st.markdown("**价格分布（箱线图）**")
-            top_regions = region_stats.head(10).index.tolist()
+            top_regions = region_stats.head(5).index.tolist()
             df2 = filtered_df[filtered_df["House place"].isin(top_regions)].copy()
 
             fig2 = go.Figure()

@@ -5,7 +5,7 @@ import streamlit as st
 
 from src.dashboard import footer, kpi_row, section_header
 from src.filters import render_sidebar
-from src.data import get_filtered
+from src.data import get_filtered, COLUMN_LABELS
 
 
 def render(df: pd.DataFrame) -> None:
@@ -25,16 +25,28 @@ def render(df: pd.DataFrame) -> None:
     section_header("数据浏览", "查看和导出当前筛选条件下的房源数据。")
 
     all_columns = list(filtered.columns)
+    col_labels = {c: COLUMN_LABELS.get(c, c) for c in all_columns}
     default_columns = ["name", "place", "price", "property_type"]
     for c in ["room_count", "avg_area"]:
         if c in all_columns:
             default_columns.append(c)
 
-    selected_columns = st.multiselect("选择显示的列", options=all_columns, default=default_columns)
-    if not selected_columns:
+    selected_labels = st.multiselect(
+        "选择显示的列",
+        options=[col_labels[c] for c in all_columns],
+        default=[col_labels[c] for c in default_columns if c in all_columns],
+    )
+    if not selected_labels:
         return
+    label_to_col = {v: k for k, v in col_labels.items()}
+    selected_columns = [label_to_col[l] for l in selected_labels]
 
-    sort_column = st.selectbox("排序依据", options=selected_columns, index=0)
+    sort_column_label = st.selectbox(
+        "排序依据",
+        options=selected_labels,
+        index=0,
+    )
+    sort_column = label_to_col[sort_column_label]
     sort_ascending = st.checkbox("升序排序", value=False)
 
     page_size_detail = st.selectbox("每页显示行数", [10, 20, 50, 100], index=0, key="detail_page")
@@ -49,6 +61,7 @@ def render(df: pd.DataFrame) -> None:
 
     sorted_df = filtered.sort_values(sort_column, ascending=sort_ascending).fillna("—")
     display_df = sorted_df.iloc[start_idx:end_idx][selected_columns].astype(str).replace("nan", "—")
+    display_df = display_df.rename(columns=lambda c: COLUMN_LABELS.get(c, c))
     st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
     st.dataframe(display_df, use_container_width=True)
     st.caption(f"显示第 {start_idx + 1} 到 {end_idx} 行，共 {total_rows} 行")

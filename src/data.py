@@ -70,3 +70,17 @@ def get_filtered(df: pd.DataFrame, regions=None, price_min=None, price_max=None,
 
 def get_all_regions(df: pd.DataFrame) -> list[str]:
     return sorted(df["place"].dropna().unique().tolist())
+
+
+COLUMN_LABELS = {
+    "name": "楼盘名称",
+    "place": "区域",
+    "price": "价格(元/㎡)",
+    "introduction": "楼盘介绍",
+    "room_count": "房间数",
+    "min_area": "最小面积(㎡)",
+    "max_area": "最大面积(㎡)",
+    "avg_area": "平均面积(㎡)",
+    "property_type": "物业类型",
+    "price_flag": "价格标签",
+}
