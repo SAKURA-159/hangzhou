@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: hangzhou-api
+    runtime: docker
+    rootDir: backend
+    plan: free
+    envVars:
+      - key: jwt_secret
+        generateValue: true
+      - key: cors_origins
+        value: '["*"]'
+      - key: database_url
+        value: sqlite:///./data/hangzhou.db
