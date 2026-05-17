@@ -49,10 +49,10 @@ def render() -> None:
     section_header("区域热度分析", "楼盘数量与均价排名。")
     col3, col4 = st.columns(2)
     with col3:
-        st.markdown("**楼盘数量（Top 10）**")
-        chart_card(region_count_bar(df))
+        st.markdown("**楼盘数量（Top 5）**")
+        chart_card(region_count_bar(df, top_n=5))
     with col4:
-        st.markdown("**平均房价（Top 10）**")
-        chart_card(region_avg_price_bar(df))
+        st.markdown("**平均房价（Top 5）**")
+        chart_card(region_avg_price_bar(df, top_n=5))
 
     footer()

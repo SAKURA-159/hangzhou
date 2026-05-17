@@ -319,9 +319,9 @@ with tab1:
         col3, col4 = st.columns(2)
 
         with col3:
-            st.markdown("**楼盘数量（Top 10）**")
+            st.markdown("**楼盘数量（Top 5）**")
 
-            region_counts = filtered_df["House place"].value_counts().head(10).sort_values(ascending=True)
+            region_counts = filtered_df["House place"].value_counts().head(5).sort_values(ascending=True)
             df3 = region_counts.reset_index()
             df3.columns = ["区域", "楼盘数量"]
             colors3 = _gradient_colors("#f1f5f9", "#1e3a8a", len(df3))
@@ -344,13 +344,13 @@ with tab1:
             st.plotly_chart(fig3, use_container_width=True, config={"displayModeBar": False})
 
         with col4:
-            st.markdown("**平均房价（Top 10）**")
+            st.markdown("**平均房价（Top 5）**")
 
             region_avg_price = (
                 filtered_df.groupby("House place")["House price"]
                 .mean()
                 .sort_values(ascending=False)
-                .head(10)
+                .head(5)
                 .sort_values(ascending=True)
             )
             df4 = region_avg_price.reset_index()
